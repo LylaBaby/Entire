@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.asset.mapper.ItAssetMapper">
+    
+    <resultMap type="ItAsset" id="ItAssetResult">
+        <result property="assetId"    column="asset_id"    />
+        <result property="assetSort"    column="asset_sort"    />
+        <result property="assetAddr"    column="asset_addr"    />
+        <result property="manufacturer"    column="manufacturer"    />
+        <result property="modelNum"    column="model_num"    />
+        <result property="snCode"    column="sn_code"    />
+        <result property="ipAddr"    column="ip_addr"    />
+        <result property="loginMode"    column="login_mode"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="specs"    column="specs"    />
+        <result property="virtual"    column="virtual"    />
+        <result property="assetCode"    column="asset_code"    />
+        <result property="assetStatus"    column="asset_status"    />
+        <result property="assetUser"    column="asset_user"    />
+    </resultMap>
+
+    <sql id="selectItAssetVo">
+        select asset_id, asset_sort, asset_addr, manufacturer, model_num, sn_code, ip_addr, login_mode, create_time, update_by, update_time, specs, virtual, asset_code, asset_status, asset_user from it_asset
+    </sql>
+
+    <select id="selectItAssetList" parameterType="ItAsset" resultMap="ItAssetResult">
+        <include refid="selectItAssetVo"/>
+        <where>  
+            <if test="assetId != null "> and asset_id = #{assetId}</if>
+            <if test="assetSort != null  and assetSort != ''"> and asset_sort = #{assetSort}</if>
+            <if test="assetAddr != null  and assetAddr != ''"> and asset_addr = #{assetAddr}</if>
+            <if test="manufacturer != null  and manufacturer != ''"> and manufacturer = #{manufacturer}</if>
+            <if test="modelNum != null  and modelNum != ''"> and model_num = #{modelNum}</if>
+            <if test="snCode != null  and snCode != ''"> and sn_code = #{snCode}</if>
+            <if test="ipAddr != null  and ipAddr != ''"> and ip_addr = #{ipAddr}</if>
+            <if test="loginMode != null  and loginMode != ''"> and login_mode = #{loginMode}</if>
+            <if test="virtual != null  and virtual != ''"> and virtual = #{virtual}</if>
+            <if test="assetCode != null  and assetCode != ''"> and asset_code = #{assetCode}</if>
+            <if test="assetStatus != null  and assetStatus != ''"> and asset_status = #{assetStatus}</if>
+            <if test="assetUser != null  and assetUser != ''"> and asset_user = #{assetUser}</if>
+        </where>
+    </select>
+    
+    <select id="selectItAssetByAssetId" parameterType="Long" resultMap="ItAssetResult">
+        <include refid="selectItAssetVo"/>
+        where asset_id = #{assetId}
+    </select>
+
+    <insert id="insertItAsset" parameterType="ItAsset">
+        insert into it_asset
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="assetId != null">asset_id,</if>
+            <if test="assetSort != null and assetSort != ''">asset_sort,</if>
+            <if test="assetAddr != null and assetAddr != ''">asset_addr,</if>
+            <if test="manufacturer != null and manufacturer != ''">manufacturer,</if>
+            <if test="modelNum != null and modelNum != ''">model_num,</if>
+            <if test="snCode != null and snCode != ''">sn_code,</if>
+            <if test="ipAddr != null and ipAddr != ''">ip_addr,</if>
+            <if test="loginMode != null and loginMode != ''">login_mode,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null and updateBy != ''">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="specs != null and specs != ''">specs,</if>
+            <if test="virtual != null and virtual != ''">virtual,</if>
+            <if test="assetCode != null and assetCode != ''">asset_code,</if>
+            <if test="assetStatus != null and assetStatus != ''">asset_status,</if>
+            <if test="assetUser != null and assetUser != ''">asset_user,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="assetId != null">#{assetId},</if>
+            <if test="assetSort != null and assetSort != ''">#{assetSort},</if>
+            <if test="assetAddr != null and assetAddr != ''">#{assetAddr},</if>
+            <if test="manufacturer != null and manufacturer != ''">#{manufacturer},</if>
+            <if test="modelNum != null and modelNum != ''">#{modelNum},</if>
+            <if test="snCode != null and snCode != ''">#{snCode},</if>
+            <if test="ipAddr != null and ipAddr != ''">#{ipAddr},</if>
+            <if test="loginMode != null and loginMode != ''">#{loginMode},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="specs != null and specs != ''">#{specs},</if>
+            <if test="virtual != null and virtual != ''">#{virtual},</if>
+            <if test="assetCode != null and assetCode != ''">#{assetCode},</if>
+            <if test="assetStatus != null and assetStatus != ''">#{assetStatus},</if>
+            <if test="assetUser != null and assetUser != ''">#{assetUser},</if>
+         </trim>
+    </insert>
+
+    <update id="updateItAsset" parameterType="ItAsset">
+        update it_asset
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="assetSort != null and assetSort != ''">asset_sort = #{assetSort},</if>
+            <if test="assetAddr != null and assetAddr != ''">asset_addr = #{assetAddr},</if>
+            <if test="manufacturer != null and manufacturer != ''">manufacturer = #{manufacturer},</if>
+            <if test="modelNum != null and modelNum != ''">model_num = #{modelNum},</if>
+            <if test="snCode != null and snCode != ''">sn_code = #{snCode},</if>
+            <if test="ipAddr != null and ipAddr != ''">ip_addr = #{ipAddr},</if>
+            <if test="loginMode != null and loginMode != ''">login_mode = #{loginMode},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="specs != null and specs != ''">specs = #{specs},</if>
+            <if test="virtual != null and virtual != ''">virtual = #{virtual},</if>
+            <if test="assetCode != null and assetCode != ''">asset_code = #{assetCode},</if>
+            <if test="assetStatus != null and assetStatus != ''">asset_status = #{assetStatus},</if>
+            <if test="assetUser != null and assetUser != ''">asset_user = #{assetUser},</if>
+        </trim>
+        where asset_id = #{assetId}
+    </update>
+
+    <delete id="deleteItAssetByAssetId" parameterType="Long">
+        delete from it_asset where asset_id = #{assetId}
+    </delete>
+
+    <delete id="deleteItAssetByAssetIds" parameterType="String">
+        delete from it_asset where asset_id in 
+        <foreach item="assetId" collection="array" open="(" separator="," close=")">
+            #{assetId}
+        </foreach>
+    </delete>
+</mapper>

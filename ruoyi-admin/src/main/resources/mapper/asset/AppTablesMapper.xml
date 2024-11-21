@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.asset.mapper.AppTablesMapper">
+    
+    <resultMap type="AppTables" id="AppTablesResult">
+        <result property="appId"    column="app_id"    />
+        <result property="items"    column="items"    />
+        <result property="sort"    column="sort"    />
+        <result property="server"    column="server"    />
+        <result property="network"    column="network"    />
+        <result property="domain"    column="domain"    />
+        <result property="pl"    column="pl"    />
+        <result property="frame"    column="frame"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="element"    column="element"    />
+        <result property="lifecycle"    column="lifecycle"    />
+        <result property="dataCenter"    column="data_center"    />
+        <result property="riskEval"    column="risk_eval"    />
+        <result property="riskLevel"    column="risk_level"    />
+        <result property="secAcl"    column="sec_acl"    />
+        <result property="secSafety"    column="sec_safety"    />
+    </resultMap>
+
+    <sql id="selectAppTablesVo">
+        select app_id, items, sort, server, network, domain, pl, frame, create_time, update_by, update_time, element, lifecycle, data_center, risk_eval, risk_level, sec_acl, sec_safety from app_tables
+    </sql>
+
+    <select id="selectAppTablesList" parameterType="AppTables" resultMap="AppTablesResult">
+        <include refid="selectAppTablesVo"/>
+        <where>  
+            <if test="appId != null "> and app_id = #{appId}</if>
+            <if test="items != null  and items != ''"> and items = #{items}</if>
+            <if test="sort != null  and sort != ''"> and sort = #{sort}</if>
+            <if test="server != null  and server != ''"> and server = #{server}</if>
+            <if test="domain != null  and domain != ''"> and domain = #{domain}</if>
+            <if test="pl != null  and pl != ''"> and pl = #{pl}</if>
+            <if test="frame != null  and frame != ''"> and frame = #{frame}</if>
+            <if test="element != null  and element != ''"> and element = #{element}</if>
+            <if test="lifecycle != null  and lifecycle != ''"> and lifecycle = #{lifecycle}</if>
+            <if test="dataCenter != null  and dataCenter != ''"> and data_center = #{dataCenter}</if>
+            <if test="riskEval != null  and riskEval != ''"> and risk_eval = #{riskEval}</if>
+            <if test="riskLevel != null  and riskLevel != ''"> and risk_level = #{riskLevel}</if>
+        </where>
+    </select>
+    
+    <select id="selectAppTablesByAppId" parameterType="Long" resultMap="AppTablesResult">
+        <include refid="selectAppTablesVo"/>
+        where app_id = #{appId}
+    </select>
+
+    <insert id="insertAppTables" parameterType="AppTables">
+        insert into app_tables
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="appId != null">app_id,</if>
+            <if test="items != null and items != ''">items,</if>
+            <if test="sort != null and sort != ''">sort,</if>
+            <if test="server != null and server != ''">server,</if>
+            <if test="network != null and network != ''">network,</if>
+            <if test="domain != null and domain != ''">domain,</if>
+            <if test="pl != null and pl != ''">pl,</if>
+            <if test="frame != null and frame != ''">frame,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null and updateBy != ''">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="element != null and element != ''">element,</if>
+            <if test="lifecycle != null and lifecycle != ''">lifecycle,</if>
+            <if test="dataCenter != null and dataCenter != ''">data_center,</if>
+            <if test="riskEval != null and riskEval != ''">risk_eval,</if>
+            <if test="riskLevel != null and riskLevel != ''">risk_level,</if>
+            <if test="secAcl != null and secAcl != ''">sec_acl,</if>
+            <if test="secSafety != null and secSafety != ''">sec_safety,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="appId != null">#{appId},</if>
+            <if test="items != null and items != ''">#{items},</if>
+            <if test="sort != null and sort != ''">#{sort},</if>
+            <if test="server != null and server != ''">#{server},</if>
+            <if test="network != null and network != ''">#{network},</if>
+            <if test="domain != null and domain != ''">#{domain},</if>
+            <if test="pl != null and pl != ''">#{pl},</if>
+            <if test="frame != null and frame != ''">#{frame},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="element != null and element != ''">#{element},</if>
+            <if test="lifecycle != null and lifecycle != ''">#{lifecycle},</if>
+            <if test="dataCenter != null and dataCenter != ''">#{dataCenter},</if>
+            <if test="riskEval != null and riskEval != ''">#{riskEval},</if>
+            <if test="riskLevel != null and riskLevel != ''">#{riskLevel},</if>
+            <if test="secAcl != null and secAcl != ''">#{secAcl},</if>
+            <if test="secSafety != null and secSafety != ''">#{secSafety},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAppTables" parameterType="AppTables">
+        update app_tables
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="items != null and items != ''">items = #{items},</if>
+            <if test="sort != null and sort != ''">sort = #{sort},</if>
+            <if test="server != null and server != ''">server = #{server},</if>
+            <if test="network != null and network != ''">network = #{network},</if>
+            <if test="domain != null and domain != ''">domain = #{domain},</if>
+            <if test="pl != null and pl != ''">pl = #{pl},</if>
+            <if test="frame != null and frame != ''">frame = #{frame},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="element != null and element != ''">element = #{element},</if>
+            <if test="lifecycle != null and lifecycle != ''">lifecycle = #{lifecycle},</if>
+            <if test="dataCenter != null and dataCenter != ''">data_center = #{dataCenter},</if>
+            <if test="riskEval != null and riskEval != ''">risk_eval = #{riskEval},</if>
+            <if test="riskLevel != null and riskLevel != ''">risk_level = #{riskLevel},</if>
+            <if test="secAcl != null and secAcl != ''">sec_acl = #{secAcl},</if>
+            <if test="secSafety != null and secSafety != ''">sec_safety = #{secSafety},</if>
+        </trim>
+        where app_id = #{appId}
+    </update>
+
+    <delete id="deleteAppTablesByAppId" parameterType="Long">
+        delete from app_tables where app_id = #{appId}
+    </delete>
+
+    <delete id="deleteAppTablesByAppIds" parameterType="String">
+        delete from app_tables where app_id in 
+        <foreach item="appId" collection="array" open="(" separator="," close=")">
+            #{appId}
+        </foreach>
+    </delete>
+</mapper>
