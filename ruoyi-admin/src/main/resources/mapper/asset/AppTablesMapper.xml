@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="sort"    column="sort"    />
         <result property="server"    column="server"    />
         <result property="network"    column="network"    />
+        <result property="netSort"    column="net_sort"    />
         <result property="domain"    column="domain"    />
         <result property="pl"    column="pl"    />
         <result property="frame"    column="frame"    />
@@ -26,20 +27,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectAppTablesVo">
-        select app_id, items, sort, server, network, domain, pl, frame, create_time, update_by, update_time, element, lifecycle, data_center, risk_eval, risk_level, sec_acl, sec_safety from app_tables
+        select app_id, items, sort, server, network, net_sort, domain, pl, frame, create_time, update_by, update_time, element, lifecycle, data_center, risk_eval, risk_level, sec_acl, sec_safety from app_tables
     </sql>
 
     <select id="selectAppTablesList" parameterType="AppTables" resultMap="AppTablesResult">
         <include refid="selectAppTablesVo"/>
         <where>  
-            <if test="appId != null "> and app_id = #{appId}</if>
             <if test="items != null  and items != ''"> and items = #{items}</if>
             <if test="sort != null  and sort != ''"> and sort = #{sort}</if>
             <if test="server != null  and server != ''"> and server = #{server}</if>
+            <if test="netSort != null  and netSort != ''"> and net_sort = #{netSort}</if>
             <if test="domain != null  and domain != ''"> and domain = #{domain}</if>
             <if test="pl != null  and pl != ''"> and pl = #{pl}</if>
-            <if test="frame != null  and frame != ''"> and frame = #{frame}</if>
-            <if test="element != null  and element != ''"> and element = #{element}</if>
             <if test="lifecycle != null  and lifecycle != ''"> and lifecycle = #{lifecycle}</if>
             <if test="dataCenter != null  and dataCenter != ''"> and data_center = #{dataCenter}</if>
             <if test="riskEval != null  and riskEval != ''"> and risk_eval = #{riskEval}</if>
@@ -52,19 +51,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where app_id = #{appId}
     </select>
 
-    <insert id="insertAppTables" parameterType="AppTables">
+    <insert id="insertAppTables" parameterType="AppTables" useGeneratedKeys="true" keyProperty="appId">
         insert into app_tables
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="appId != null">app_id,</if>
             <if test="items != null and items != ''">items,</if>
             <if test="sort != null and sort != ''">sort,</if>
             <if test="server != null and server != ''">server,</if>
             <if test="network != null and network != ''">network,</if>
-            <if test="domain != null and domain != ''">domain,</if>
+            <if test="netSort != null and netSort != ''">net_sort,</if>
+            <if test="domain != null">domain,</if>
             <if test="pl != null and pl != ''">pl,</if>
             <if test="frame != null and frame != ''">frame,</if>
             <if test="createTime != null">create_time,</if>
-            <if test="updateBy != null and updateBy != ''">update_by,</if>
+            <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="element != null and element != ''">element,</if>
             <if test="lifecycle != null and lifecycle != ''">lifecycle,</if>
@@ -75,16 +74,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="secSafety != null and secSafety != ''">sec_safety,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="appId != null">#{appId},</if>
             <if test="items != null and items != ''">#{items},</if>
             <if test="sort != null and sort != ''">#{sort},</if>
             <if test="server != null and server != ''">#{server},</if>
             <if test="network != null and network != ''">#{network},</if>
-            <if test="domain != null and domain != ''">#{domain},</if>
+            <if test="netSort != null and netSort != ''">#{netSort},</if>
+            <if test="domain != null">#{domain},</if>
             <if test="pl != null and pl != ''">#{pl},</if>
             <if test="frame != null and frame != ''">#{frame},</if>
             <if test="createTime != null">#{createTime},</if>
-            <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="element != null and element != ''">#{element},</if>
             <if test="lifecycle != null and lifecycle != ''">#{lifecycle},</if>
@@ -103,11 +102,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="sort != null and sort != ''">sort = #{sort},</if>
             <if test="server != null and server != ''">server = #{server},</if>
             <if test="network != null and network != ''">network = #{network},</if>
-            <if test="domain != null and domain != ''">domain = #{domain},</if>
+            <if test="netSort != null and netSort != ''">net_sort = #{netSort},</if>
+            <if test="domain != null">domain = #{domain},</if>
             <if test="pl != null and pl != ''">pl = #{pl},</if>
             <if test="frame != null and frame != ''">frame = #{frame},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="element != null and element != ''">element = #{element},</if>
             <if test="lifecycle != null and lifecycle != ''">lifecycle = #{lifecycle},</if>

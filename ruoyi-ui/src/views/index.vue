@@ -1,82 +1,65 @@
+<template>
+  <div class="app-container">
+    <div class="overview">
+      <div class="stat-card" v-for="(value, key) in overviewData" :key="key">
+        <div class="stat-title">{{ key }}</div>
+        <div class="stat-value">{{ value }}</div>
+      </div>
+    </div>
+  </div>
+</template>
 
 <script>
 export default {
-  name: "Index",
   data() {
     return {
-      // 版本号
-      version: "3.8.8"
+      overviewData: {}
     };
   },
+  created() {
+    this.fetchOverviewData();
+  },
   methods: {
-    goTarget(href) {
-      window.open(href, "_blank");
+    fetchOverviewData() {
+      this.$axios.get("/dev-api/asset/statistics/overview")
+        .then(response => {
+          this.overviewData = response.data;
+        })
+        .catch(error => {
+          console.error("Failed to fetch overview data:", error);
+        });
     }
   }
 };
 </script>
 
-<style scoped lang="scss">
-.home {
-  blockquote {
-    padding: 10px 20px;
-    margin: 0 0 20px;
-    font-size: 17.5px;
-    border-left: 5px solid #eee;
-  }
-  hr {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border: 0;
-    border-top: 1px solid #eee;
-  }
-  .col-item {
-    margin-bottom: 20px;
-  }
+<style scoped>
+.app-container {
+  padding: 20px;
+}
 
-  ul {
-    padding: 0;
-    margin: 0;
-  }
+.overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
 
-  font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 13px;
-  color: #676a6c;
-  overflow-x: hidden;
+.stat-card {
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 
-  ul {
-    list-style-type: none;
-  }
+.stat-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
 
-  h4 {
-    margin-top: 0px;
-  }
-
-  h2 {
-    margin-top: 10px;
-    font-size: 26px;
-    font-weight: 100;
-  }
-
-  p {
-    margin-top: 10px;
-
-    b {
-      font-weight: 700;
-    }
-  }
-
-  .update-log {
-    ol {
-      display: block;
-      list-style-type: decimal;
-      margin-block-start: 1em;
-      margin-block-end: 1em;
-      margin-inline-start: 0;
-      margin-inline-end: 0;
-      padding-inline-start: 40px;
-    }
-  }
+.stat-value {
+  font-size: 24px;
+  color: #42b983;
 }
 </style>
-

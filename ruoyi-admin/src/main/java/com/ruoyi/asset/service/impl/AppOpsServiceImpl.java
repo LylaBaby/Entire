@@ -11,7 +11,7 @@ import com.ruoyi.asset.service.IAppOpsService;
  * 系统运维Service业务层处理
  * 
  * @author Sven
- * @date 2024-11-20
+ * @date 2024-11-27
  */
 @Service
 public class AppOpsServiceImpl implements IAppOpsService 
@@ -22,13 +22,13 @@ public class AppOpsServiceImpl implements IAppOpsService
     /**
      * 查询系统运维
      * 
-     * @param appItems 系统运维主键
+     * @param opsId 系统运维主键
      * @return 系统运维
      */
     @Override
-    public AppOps selectAppOpsByAppItems(String appItems)
+    public AppOps selectAppOpsByOpsId(Long opsId)
     {
-        return appOpsMapper.selectAppOpsByAppItems(appItems);
+        return appOpsMapper.selectAppOpsByOpsId(opsId);
     }
 
     /**
@@ -70,24 +70,24 @@ public class AppOpsServiceImpl implements IAppOpsService
     /**
      * 批量删除系统运维
      * 
-     * @param appItemss 需要删除的系统运维主键
+     * @param opsIds 需要删除的系统运维主键
      * @return 结果
      */
     @Override
-    public int deleteAppOpsByAppItemss(String[] appItemss)
+    public int deleteAppOpsByOpsIds(Long[] opsIds)
     {
-        return appOpsMapper.deleteAppOpsByAppItemss(appItemss);
+        return appOpsMapper.deleteAppOpsByOpsIds(opsIds);
     }
 
     /**
      * 删除系统运维信息
      * 
-     * @param appItems 系统运维主键
+     * @param opsId 系统运维主键
      * @return 结果
      */
     @Override
-    public int deleteAppOpsByAppItems(String appItems)
+    public int deleteAppOpsByOpsId(Long opsId)
     {
-        return appOpsMapper.deleteAppOpsByAppItems(appItems);
+        return appOpsMapper.deleteAppOpsByOpsId(opsId);
     }
 }

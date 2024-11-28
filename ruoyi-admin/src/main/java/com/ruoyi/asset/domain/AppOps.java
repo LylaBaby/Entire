@@ -9,26 +9,29 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 系统运维对象 app_ops
  * 
  * @author Sven
- * @date 2024-11-20
+ * @date 2024-11-27
  */
 public class AppOps extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
+    /** 序号 */
+    private Long opsId;
+
     /** 应用项目 */
     @Excel(name = "应用项目")
-    private String appItems;
+    private String projectName;
 
     /** 应用名 */
     @Excel(name = "应用名")
     private String appName;
 
     /** 应用路径 */
-    private String appPath;
+    private String appUrl;
 
     /** 应用端口 */
     @Excel(name = "应用端口")
-    private String appPort;
+    private Long appPort;
 
     /** 应用包名 */
     private String packageName;
@@ -37,7 +40,7 @@ public class AppOps extends BaseEntity
     private String buildCommand;
 
     /** git地址 */
-    private String gitPath;
+    private String gitUrl;
 
     /** 应用状态 */
     @Excel(name = "应用状态")
@@ -50,19 +53,28 @@ public class AppOps extends BaseEntity
     private String logsPath;
 
     /** Jenkins地址 */
-    private String jenkinsAddr;
+    private String jenkinsUrl;
 
     /** 发版命令 */
     private String releaseCommand;
 
-    public void setAppItems(String appItems) 
+    public void setOpsId(Long opsId) 
     {
-        this.appItems = appItems;
+        this.opsId = opsId;
     }
 
-    public String getAppItems() 
+    public Long getOpsId() 
     {
-        return appItems;
+        return opsId;
+    }
+    public void setProjectName(String projectName) 
+    {
+        this.projectName = projectName;
+    }
+
+    public String getProjectName() 
+    {
+        return projectName;
     }
     public void setAppName(String appName) 
     {
@@ -73,21 +85,21 @@ public class AppOps extends BaseEntity
     {
         return appName;
     }
-    public void setAppPath(String appPath) 
+    public void setAppUrl(String appUrl) 
     {
-        this.appPath = appPath;
+        this.appUrl = appUrl;
     }
 
-    public String getAppPath() 
+    public String getAppUrl() 
     {
-        return appPath;
+        return appUrl;
     }
-    public void setAppPort(String appPort) 
+    public void setAppPort(Long appPort) 
     {
         this.appPort = appPort;
     }
 
-    public String getAppPort() 
+    public Long getAppPort() 
     {
         return appPort;
     }
@@ -109,14 +121,14 @@ public class AppOps extends BaseEntity
     {
         return buildCommand;
     }
-    public void setGitPath(String gitPath) 
+    public void setGitUrl(String gitUrl) 
     {
-        this.gitPath = gitPath;
+        this.gitUrl = gitUrl;
     }
 
-    public String getGitPath() 
+    public String getGitUrl() 
     {
-        return gitPath;
+        return gitUrl;
     }
     public void setAppStatus(String appStatus) 
     {
@@ -145,14 +157,14 @@ public class AppOps extends BaseEntity
     {
         return logsPath;
     }
-    public void setJenkinsAddr(String jenkinsAddr) 
+    public void setJenkinsUrl(String jenkinsUrl) 
     {
-        this.jenkinsAddr = jenkinsAddr;
+        this.jenkinsUrl = jenkinsUrl;
     }
 
-    public String getJenkinsAddr() 
+    public String getJenkinsUrl() 
     {
-        return jenkinsAddr;
+        return jenkinsUrl;
     }
     public void setReleaseCommand(String releaseCommand) 
     {
@@ -167,17 +179,18 @@ public class AppOps extends BaseEntity
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("appItems", getAppItems())
+            .append("opsId", getOpsId())
+            .append("projectName", getProjectName())
             .append("appName", getAppName())
-            .append("appPath", getAppPath())
+            .append("appUrl", getAppUrl())
             .append("appPort", getAppPort())
             .append("packageName", getPackageName())
             .append("buildCommand", getBuildCommand())
-            .append("gitPath", getGitPath())
+            .append("gitUrl", getGitUrl())
             .append("appStatus", getAppStatus())
             .append("elementConf", getElementConf())
             .append("logsPath", getLogsPath())
-            .append("jenkinsAddr", getJenkinsAddr())
+            .append("jenkinsUrl", getJenkinsUrl())
             .append("releaseCommand", getReleaseCommand())
             .toString();
     }

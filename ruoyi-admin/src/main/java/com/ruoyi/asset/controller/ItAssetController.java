@@ -25,7 +25,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * IT资产Controller
  * 
  * @author Sven
- * @date 2024-11-20
+ * @date 2024-11-27
  */
 @RestController
 @RequestMapping("/asset/itasset")

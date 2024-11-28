@@ -7,17 +7,17 @@ import com.ruoyi.asset.domain.AppOps;
  * 系统运维Mapper接口
  * 
  * @author Sven
- * @date 2024-11-20
+ * @date 2024-11-27
  */
 public interface AppOpsMapper 
 {
     /**
      * 查询系统运维
      * 
-     * @param appItems 系统运维主键
+     * @param opsId 系统运维主键
      * @return 系统运维
      */
-    public AppOps selectAppOpsByAppItems(String appItems);
+    public AppOps selectAppOpsByOpsId(Long opsId);
 
     /**
      * 查询系统运维列表
@@ -46,16 +46,16 @@ public interface AppOpsMapper
     /**
      * 删除系统运维
      * 
-     * @param appItems 系统运维主键
+     * @param opsId 系统运维主键
      * @return 结果
      */
-    public int deleteAppOpsByAppItems(String appItems);
+    public int deleteAppOpsByOpsId(Long opsId);
 
     /**
      * 批量删除系统运维
      * 
-     * @param appItemss 需要删除的数据主键集合
+     * @param opsIds 需要删除的数据主键集合
      * @return 结果
      */
-    public int deleteAppOpsByAppItemss(String[] appItemss);
+    public int deleteAppOpsByOpsIds(Long[] opsIds);
 }

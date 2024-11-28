@@ -9,14 +9,13 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * IT资产对象 it_asset
  * 
  * @author Sven
- * @date 2024-11-20
+ * @date 2024-11-27
  */
 public class ItAsset extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** 资产ID */
-    @Excel(name = "资产ID")
     private Long assetId;
 
     /** 资产分类 */
@@ -51,7 +50,7 @@ public class ItAsset extends BaseEntity
 
     /** 虚拟化 */
     @Excel(name = "虚拟化")
-    private String virtual;
+    private String isVirt;
 
     /** 资产编号 */
     @Excel(name = "资产编号")
@@ -146,14 +145,14 @@ public class ItAsset extends BaseEntity
     {
         return specs;
     }
-    public void setVirtual(String virtual) 
+    public void setIsVirt(String isVirt) 
     {
-        this.virtual = virtual;
+        this.isVirt = isVirt;
     }
 
-    public String getVirtual() 
+    public String getIsVirt() 
     {
-        return virtual;
+        return isVirt;
     }
     public void setAssetCode(String assetCode) 
     {
@@ -198,7 +197,7 @@ public class ItAsset extends BaseEntity
             .append("updateBy", getUpdateBy())
             .append("updateTime", getUpdateTime())
             .append("specs", getSpecs())
-            .append("virtual", getVirtual())
+            .append("isVirt", getIsVirt())
             .append("assetCode", getAssetCode())
             .append("assetStatus", getAssetStatus())
             .append("assetUser", getAssetUser())

@@ -25,7 +25,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 系统运维Controller
  * 
  * @author Sven
- * @date 2024-11-20
+ * @date 2024-11-27
  */
 @RestController
 @RequestMapping("/asset/ops")
@@ -63,10 +63,10 @@ public class AppOpsController extends BaseController
      * 获取系统运维详细信息
      */
     @PreAuthorize("@ss.hasPermi('asset:ops:query')")
-    @GetMapping(value = "/{appItems}")
-    public AjaxResult getInfo(@PathVariable("appItems") String appItems)
+    @GetMapping(value = "/{opsId}")
+    public AjaxResult getInfo(@PathVariable("opsId") Long opsId)
     {
-        return success(appOpsService.selectAppOpsByAppItems(appItems));
+        return success(appOpsService.selectAppOpsByOpsId(opsId));
     }
 
     /**
@@ -96,9 +96,9 @@ public class AppOpsController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('asset:ops:remove')")
     @Log(title = "系统运维", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{appItemss}")
-    public AjaxResult remove(@PathVariable String[] appItemss)
+	@DeleteMapping("/{opsIds}")
+    public AjaxResult remove(@PathVariable Long[] opsIds)
     {
-        return toAjax(appOpsService.deleteAppOpsByAppItemss(appItemss));
+        return toAjax(appOpsService.deleteAppOpsByOpsIds(opsIds));
     }
 }

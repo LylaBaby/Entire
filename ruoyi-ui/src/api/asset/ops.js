@@ -10,9 +10,9 @@ export function listOps(query) {
 }
 
 // 查询系统运维详细
-export function getOps(appItems) {
+export function getOps(opsId) {
   return request({
-    url: '/asset/ops/' + appItems,
+    url: '/asset/ops/' + opsId,
     method: 'get'
   })
 }
@@ -36,9 +36,9 @@ export function updateOps(data) {
 }
 
 // 删除系统运维
-export function delOps(appItems) {
+export function delOps(opsId) {
   return request({
-    url: '/asset/ops/' + appItems,
+    url: '/asset/ops/' + opsId,
     method: 'delete'
   })
 }

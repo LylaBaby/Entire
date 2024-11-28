@@ -1,14 +1,6 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="应用ID" prop="appId">
-        <el-input
-          v-model="queryParams.appId"
-          placeholder="请输入应用ID"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="项目" prop="items">
         <el-input
           v-model="queryParams.items"
@@ -21,6 +13,16 @@
         <el-select v-model="queryParams.sort" placeholder="请选择分类" clearable>
           <el-option
             v-for="dict in dict.type.app_sort"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="网络类型" prop="netSort">
+        <el-select v-model="queryParams.netSort" placeholder="请选择网络类型" clearable>
+          <el-option
+            v-for="dict in dict.type.app_network"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -144,6 +146,11 @@
           <dict-tag :options="dict.type.app_sort" :value="scope.row.sort"/>
         </template>
       </el-table-column>
+      <el-table-column label="网络类型" align="center" prop="netSort">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.app_network" :value="scope.row.netSort"/>
+        </template>
+      </el-table-column>
       <el-table-column label="域名" align="center" prop="domain" />
       <el-table-column label="开发语言" align="center" prop="pl" />
       <el-table-column label="框架" align="center" prop="frame" />
@@ -198,27 +205,32 @@
     <!-- 添加或修改应用资产对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="应用ID" prop="appId">
-          <el-input v-model="form.appId" placeholder="请输入应用ID" />
-        </el-form-item>
         <el-form-item label="项目" prop="items">
           <el-input v-model="form.items" placeholder="请输入项目" />
         </el-form-item>
         <el-form-item label="分类" prop="sort">
-          <el-select v-model="form.sort" placeholder="请选择分类">
-            <el-option
+          <el-radio-group v-model="form.sort">
+            <el-radio
               v-for="dict in dict.type.app_sort"
               :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
-            ></el-option>
-          </el-select>
+              :label="dict.value"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item label="服务器" prop="server">
           <el-input v-model="form.server" type="textarea" placeholder="请输入内容" />
         </el-form-item>
-        <el-form-item label="网络">
-          <editor v-model="form.network" :min-height="192"/>
+        <el-form-item label="网络" prop="network">
+          <image-upload v-model="form.network"/>
+        </el-form-item>
+        <el-form-item label="网络类型" prop="netSort">
+          <el-radio-group v-model="form.netSort">
+            <el-radio
+              v-for="dict in dict.type.app_network"
+              :key="dict.value"
+              :label="dict.value"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item label="域名" prop="domain">
           <el-input v-model="form.domain" placeholder="请输入域名" />
@@ -230,47 +242,43 @@
           <el-input v-model="form.frame" type="textarea" placeholder="请输入内容" />
         </el-form-item>
         <el-form-item label="组件" prop="element">
-          <el-input v-model="form.element" type="textarea" placeholder="请输入内容" />
+          <el-input v-model="form.element" placeholder="请输入组件" />
         </el-form-item>
         <el-form-item label="生命周期" prop="lifecycle">
-          <el-select v-model="form.lifecycle" placeholder="请选择生命周期">
-            <el-option
+          <el-radio-group v-model="form.lifecycle">
+            <el-radio
               v-for="dict in dict.type.app_lifecycle"
               :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
-            ></el-option>
-          </el-select>
+              :label="dict.value"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item label="数据中心" prop="dataCenter">
-          <el-select v-model="form.dataCenter" placeholder="请选择数据中心">
-            <el-option
+          <el-radio-group v-model="form.dataCenter">
+            <el-radio
               v-for="dict in dict.type.environment"
               :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
-            ></el-option>
-          </el-select>
+              :label="dict.value"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item label="风险评估" prop="riskEval">
-          <el-select v-model="form.riskEval" placeholder="请选择风险评估">
-            <el-option
+          <el-radio-group v-model="form.riskEval">
+            <el-radio
               v-for="dict in dict.type.app_risk_eval"
               :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
-            ></el-option>
-          </el-select>
+              :label="dict.value"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item label="风险等级" prop="riskLevel">
-          <el-select v-model="form.riskLevel" placeholder="请选择风险等级">
-            <el-option
+          <el-radio-group v-model="form.riskLevel">
+            <el-radio
               v-for="dict in dict.type.app_risk_level"
               :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
-            ></el-option>
-          </el-select>
+              :label="dict.value"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item label="访问控制策略" prop="secAcl">
           <el-input v-model="form.secAcl" type="textarea" placeholder="请输入内容" />
@@ -292,7 +300,7 @@ import { listAppasset, getAppasset, delAppasset, addAppasset, updateAppasset } f
 
 export default {
   name: "Appasset",
-  dicts: ['app_lifecycle', 'environment', 'app_sort', 'app_risk_level', 'app_risk_eval'],
+  dicts: ['app_lifecycle', 'environment', 'app_sort', 'app_risk_level', 'app_network', 'app_risk_eval'],
   data() {
     return {
       // 遮罩层
@@ -317,14 +325,12 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        appId: null,
         items: null,
         sort: null,
         server: null,
+        netSort: null,
         domain: null,
         pl: null,
-        frame: null,
-        element: null,
         lifecycle: null,
         dataCenter: null,
         riskEval: null,
@@ -334,9 +340,6 @@ export default {
       form: {},
       // 表单校验
       rules: {
-        appId: [
-          { required: true, message: "应用ID不能为空", trigger: "blur" }
-        ],
         items: [
           { required: true, message: "项目不能为空", trigger: "blur" }
         ],
@@ -349,23 +352,14 @@ export default {
         network: [
           { required: true, message: "网络不能为空", trigger: "blur" }
         ],
-        domain: [
-          { required: true, message: "域名不能为空", trigger: "blur" }
+        netSort: [
+          { required: true, message: "网络类型不能为空", trigger: "change" }
         ],
         pl: [
           { required: true, message: "开发语言不能为空", trigger: "blur" }
         ],
         frame: [
           { required: true, message: "框架不能为空", trigger: "blur" }
-        ],
-        createTime: [
-          { required: true, message: "创建时间不能为空", trigger: "blur" }
-        ],
-        updateBy: [
-          { required: true, message: "更新者不能为空", trigger: "blur" }
-        ],
-        updateTime: [
-          { required: true, message: "更新时间不能为空", trigger: "blur" }
         ],
         element: [
           { required: true, message: "组件不能为空", trigger: "blur" }
@@ -417,6 +411,7 @@ export default {
         sort: null,
         server: null,
         network: null,
+        netSort: null,
         domain: null,
         pl: null,
         frame: null,

@@ -1,14 +1,6 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="资产ID" prop="assetId">
-        <el-input
-          v-model="queryParams.assetId"
-          placeholder="请输入资产ID"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="资产分类" prop="assetSort">
         <el-select v-model="queryParams.assetSort" placeholder="请选择资产分类" clearable>
           <el-option
@@ -61,8 +53,8 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="虚拟化" prop="virtual">
-        <el-select v-model="queryParams.virtual" placeholder="请选择虚拟化" clearable>
+      <el-form-item label="虚拟化" prop="isVirt">
+        <el-select v-model="queryParams.isVirt" placeholder="请选择虚拟化" clearable>
           <el-option
             v-for="dict in dict.type.vm"
             :key="dict.value"
@@ -166,9 +158,9 @@
       <el-table-column label="型号" align="center" prop="modelNum" />
       <el-table-column label="SN码" align="center" prop="snCode" />
       <el-table-column label="IP地址" align="center" prop="ipAddr" />
-      <el-table-column label="虚拟化" align="center" prop="virtual">
+      <el-table-column label="虚拟化" align="center" prop="isVirt">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.vm" :value="scope.row.virtual"/>
+          <dict-tag :options="dict.type.vm" :value="scope.row.isVirt"/>
         </template>
       </el-table-column>
       <el-table-column label="资产编号" align="center" prop="assetCode" />
@@ -209,28 +201,23 @@
     <!-- 添加或修改IT资产对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="资产ID" prop="assetId">
-          <el-input v-model="form.assetId" placeholder="请输入资产ID" />
-        </el-form-item>
         <el-form-item label="资产分类" prop="assetSort">
-          <el-select v-model="form.assetSort" placeholder="请选择资产分类">
-            <el-option
+          <el-radio-group v-model="form.assetSort">
+            <el-radio
               v-for="dict in dict.type.it_asset_sort"
               :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
-            ></el-option>
-          </el-select>
+              :label="dict.value"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item label="机器地址" prop="assetAddr">
-          <el-select v-model="form.assetAddr" placeholder="请选择机器地址">
-            <el-option
+          <el-radio-group v-model="form.assetAddr">
+            <el-radio
               v-for="dict in dict.type.it_asset_addr"
               :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
-            ></el-option>
-          </el-select>
+              :label="dict.value"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item label="厂商" prop="manufacturer">
           <el-input v-model="form.manufacturer" placeholder="请输入厂商" />
@@ -250,28 +237,26 @@
         <el-form-item label="配置" prop="specs">
           <el-input v-model="form.specs" type="textarea" placeholder="请输入内容" />
         </el-form-item>
-        <el-form-item label="虚拟化" prop="virtual">
-          <el-select v-model="form.virtual" placeholder="请选择虚拟化">
-            <el-option
+        <el-form-item label="虚拟化" prop="isVirt">
+          <el-radio-group v-model="form.isVirt">
+            <el-radio
               v-for="dict in dict.type.vm"
               :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
-            ></el-option>
-          </el-select>
+              :label="dict.value"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item label="资产编号" prop="assetCode">
           <el-input v-model="form.assetCode" placeholder="请输入资产编号" />
         </el-form-item>
         <el-form-item label="资产状态" prop="assetStatus">
-          <el-select v-model="form.assetStatus" placeholder="请选择资产状态">
-            <el-option
+          <el-radio-group v-model="form.assetStatus">
+            <el-radio
               v-for="dict in dict.type.it_asset_status"
               :key="dict.value"
-              :label="dict.label"
-              :value="dict.value"
-            ></el-option>
-          </el-select>
+              :label="dict.value"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item label="资产用户" prop="assetUser">
           <el-input v-model="form.assetUser" placeholder="请输入资产用户" />
@@ -315,7 +300,6 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        assetId: null,
         assetSort: null,
         assetAddr: null,
         manufacturer: null,
@@ -323,7 +307,7 @@ export default {
         snCode: null,
         ipAddr: null,
         loginMode: null,
-        virtual: null,
+        isVirt: null,
         assetCode: null,
         assetStatus: null,
         assetUser: null
@@ -332,9 +316,6 @@ export default {
       form: {},
       // 表单校验
       rules: {
-        assetId: [
-          { required: true, message: "资产ID不能为空", trigger: "blur" }
-        ],
         assetSort: [
           { required: true, message: "资产分类不能为空", trigger: "change" }
         ],
@@ -347,28 +328,10 @@ export default {
         modelNum: [
           { required: true, message: "型号不能为空", trigger: "blur" }
         ],
-        snCode: [
-          { required: true, message: "SN码不能为空", trigger: "blur" }
-        ],
-        ipAddr: [
-          { required: true, message: "IP地址不能为空", trigger: "blur" }
-        ],
-        loginMode: [
-          { required: true, message: "登陆方式不能为空", trigger: "blur" }
-        ],
-        createTime: [
-          { required: true, message: "创建时间不能为空", trigger: "blur" }
-        ],
-        updateBy: [
-          { required: true, message: "更新者不能为空", trigger: "blur" }
-        ],
-        updateTime: [
-          { required: true, message: "更新时间不能为空", trigger: "blur" }
-        ],
         specs: [
           { required: true, message: "配置不能为空", trigger: "blur" }
         ],
-        virtual: [
+        isVirt: [
           { required: true, message: "虚拟化不能为空", trigger: "change" }
         ],
         assetCode: [
@@ -377,9 +340,6 @@ export default {
         assetStatus: [
           { required: true, message: "资产状态不能为空", trigger: "change" }
         ],
-        assetUser: [
-          { required: true, message: "资产用户不能为空", trigger: "blur" }
-        ]
       }
     };
   },
@@ -416,7 +376,7 @@ export default {
         updateBy: null,
         updateTime: null,
         specs: null,
-        virtual: null,
+        isVirt: null,
         assetCode: null,
         assetStatus: null,
         assetUser: null

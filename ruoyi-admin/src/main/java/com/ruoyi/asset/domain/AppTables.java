@@ -9,14 +9,13 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 应用资产对象 app_tables
  * 
  * @author Sven
- * @date 2024-11-20
+ * @date 2024-11-27
  */
 public class AppTables extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** 应用ID */
-    @Excel(name = "应用ID")
     private Long appId;
 
     /** 项目 */
@@ -32,6 +31,10 @@ public class AppTables extends BaseEntity
 
     /** 网络 */
     private String network;
+
+    /** 网络类型 */
+    @Excel(name = "网络类型")
+    private String netSort;
 
     /** 域名 */
     @Excel(name = "域名")
@@ -114,6 +117,15 @@ public class AppTables extends BaseEntity
     public String getNetwork() 
     {
         return network;
+    }
+    public void setNetSort(String netSort) 
+    {
+        this.netSort = netSort;
+    }
+
+    public String getNetSort() 
+    {
+        return netSort;
     }
     public void setDomain(String domain) 
     {
@@ -214,6 +226,7 @@ public class AppTables extends BaseEntity
             .append("sort", getSort())
             .append("server", getServer())
             .append("network", getNetwork())
+            .append("netSort", getNetSort())
             .append("domain", getDomain())
             .append("pl", getPl())
             .append("frame", getFrame())

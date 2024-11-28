@@ -5,97 +5,101 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.ruoyi.asset.mapper.AppOpsMapper">
     
     <resultMap type="AppOps" id="AppOpsResult">
-        <result property="appItems"    column="app_items"    />
+        <result property="opsId"    column="ops_id"    />
+        <result property="projectName"    column="project_name"    />
         <result property="appName"    column="app_name"    />
-        <result property="appPath"    column="app_path"    />
+        <result property="appUrl"    column="app_url"    />
         <result property="appPort"    column="app_port"    />
         <result property="packageName"    column="package_name"    />
         <result property="buildCommand"    column="build_command"    />
-        <result property="gitPath"    column="git_path"    />
+        <result property="gitUrl"    column="git_url"    />
         <result property="appStatus"    column="app_status"    />
         <result property="elementConf"    column="element_conf"    />
         <result property="logsPath"    column="logs_path"    />
-        <result property="jenkinsAddr"    column="jenkins_addr"    />
+        <result property="jenkinsUrl"    column="jenkins_url"    />
         <result property="releaseCommand"    column="release_command"    />
     </resultMap>
 
     <sql id="selectAppOpsVo">
-        select app_items, app_name, app_path, app_port, package_name, build_command, git_path, app_status, element_conf, logs_path, jenkins_addr, release_command from app_ops
+        select ops_id, project_name, app_name, app_url, app_port, package_name, build_command, git_url, app_status, element_conf, logs_path, jenkins_url, release_command from app_ops
     </sql>
 
     <select id="selectAppOpsList" parameterType="AppOps" resultMap="AppOpsResult">
         <include refid="selectAppOpsVo"/>
         <where>  
-            <if test="appItems != null  and appItems != ''"> and app_items = #{appItems}</if>
+            <if test="projectName != null  and projectName != ''"> and project_name = #{projectName}</if>
             <if test="appName != null  and appName != ''"> and app_name = #{appName}</if>
-            <if test="appPort != null  and appPort != ''"> and app_port = #{appPort}</if>
+            <if test="appPort != null "> and app_port = #{appPort}</if>
             <if test="appStatus != null  and appStatus != ''"> and app_status = #{appStatus}</if>
         </where>
     </select>
     
-    <select id="selectAppOpsByAppItems" parameterType="String" resultMap="AppOpsResult">
+    <select id="selectAppOpsByOpsId" parameterType="Long" resultMap="AppOpsResult">
         <include refid="selectAppOpsVo"/>
-        where app_items = #{appItems}
+        where ops_id = #{opsId}
     </select>
 
     <insert id="insertAppOps" parameterType="AppOps">
         insert into app_ops
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="appItems != null and appItems != ''">app_items,</if>
+            <if test="opsId != null">ops_id,</if>
+            <if test="projectName != null and projectName != ''">project_name,</if>
             <if test="appName != null and appName != ''">app_name,</if>
-            <if test="appPath != null and appPath != ''">app_path,</if>
-            <if test="appPort != null and appPort != ''">app_port,</if>
+            <if test="appUrl != null and appUrl != ''">app_url,</if>
+            <if test="appPort != null">app_port,</if>
             <if test="packageName != null and packageName != ''">package_name,</if>
-            <if test="buildCommand != null and buildCommand != ''">build_command,</if>
-            <if test="gitPath != null and gitPath != ''">git_path,</if>
+            <if test="buildCommand != null">build_command,</if>
+            <if test="gitUrl != null and gitUrl != ''">git_url,</if>
             <if test="appStatus != null and appStatus != ''">app_status,</if>
-            <if test="elementConf != null and elementConf != ''">element_conf,</if>
-            <if test="logsPath != null and logsPath != ''">logs_path,</if>
-            <if test="jenkinsAddr != null and jenkinsAddr != ''">jenkins_addr,</if>
-            <if test="releaseCommand != null and releaseCommand != ''">release_command,</if>
+            <if test="elementConf != null">element_conf,</if>
+            <if test="logsPath != null">logs_path,</if>
+            <if test="jenkinsUrl != null">jenkins_url,</if>
+            <if test="releaseCommand != null">release_command,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="appItems != null and appItems != ''">#{appItems},</if>
+            <if test="opsId != null">#{opsId},</if>
+            <if test="projectName != null and projectName != ''">#{projectName},</if>
             <if test="appName != null and appName != ''">#{appName},</if>
-            <if test="appPath != null and appPath != ''">#{appPath},</if>
-            <if test="appPort != null and appPort != ''">#{appPort},</if>
+            <if test="appUrl != null and appUrl != ''">#{appUrl},</if>
+            <if test="appPort != null">#{appPort},</if>
             <if test="packageName != null and packageName != ''">#{packageName},</if>
-            <if test="buildCommand != null and buildCommand != ''">#{buildCommand},</if>
-            <if test="gitPath != null and gitPath != ''">#{gitPath},</if>
+            <if test="buildCommand != null">#{buildCommand},</if>
+            <if test="gitUrl != null and gitUrl != ''">#{gitUrl},</if>
             <if test="appStatus != null and appStatus != ''">#{appStatus},</if>
-            <if test="elementConf != null and elementConf != ''">#{elementConf},</if>
-            <if test="logsPath != null and logsPath != ''">#{logsPath},</if>
-            <if test="jenkinsAddr != null and jenkinsAddr != ''">#{jenkinsAddr},</if>
-            <if test="releaseCommand != null and releaseCommand != ''">#{releaseCommand},</if>
+            <if test="elementConf != null">#{elementConf},</if>
+            <if test="logsPath != null">#{logsPath},</if>
+            <if test="jenkinsUrl != null">#{jenkinsUrl},</if>
+            <if test="releaseCommand != null">#{releaseCommand},</if>
          </trim>
     </insert>
 
     <update id="updateAppOps" parameterType="AppOps">
         update app_ops
         <trim prefix="SET" suffixOverrides=",">
+            <if test="projectName != null and projectName != ''">project_name = #{projectName},</if>
             <if test="appName != null and appName != ''">app_name = #{appName},</if>
-            <if test="appPath != null and appPath != ''">app_path = #{appPath},</if>
-            <if test="appPort != null and appPort != ''">app_port = #{appPort},</if>
+            <if test="appUrl != null and appUrl != ''">app_url = #{appUrl},</if>
+            <if test="appPort != null">app_port = #{appPort},</if>
             <if test="packageName != null and packageName != ''">package_name = #{packageName},</if>
-            <if test="buildCommand != null and buildCommand != ''">build_command = #{buildCommand},</if>
-            <if test="gitPath != null and gitPath != ''">git_path = #{gitPath},</if>
+            <if test="buildCommand != null">build_command = #{buildCommand},</if>
+            <if test="gitUrl != null and gitUrl != ''">git_url = #{gitUrl},</if>
             <if test="appStatus != null and appStatus != ''">app_status = #{appStatus},</if>
-            <if test="elementConf != null and elementConf != ''">element_conf = #{elementConf},</if>
-            <if test="logsPath != null and logsPath != ''">logs_path = #{logsPath},</if>
-            <if test="jenkinsAddr != null and jenkinsAddr != ''">jenkins_addr = #{jenkinsAddr},</if>
-            <if test="releaseCommand != null and releaseCommand != ''">release_command = #{releaseCommand},</if>
+            <if test="elementConf != null">element_conf = #{elementConf},</if>
+            <if test="logsPath != null">logs_path = #{logsPath},</if>
+            <if test="jenkinsUrl != null">jenkins_url = #{jenkinsUrl},</if>
+            <if test="releaseCommand != null">release_command = #{releaseCommand},</if>
         </trim>
-        where app_items = #{appItems}
+        where ops_id = #{opsId}
     </update>
 
-    <delete id="deleteAppOpsByAppItems" parameterType="String">
-        delete from app_ops where app_items = #{appItems}
+    <delete id="deleteAppOpsByOpsId" parameterType="Long">
+        delete from app_ops where ops_id = #{opsId}
     </delete>
 
-    <delete id="deleteAppOpsByAppItemss" parameterType="String">
-        delete from app_ops where app_items in 
-        <foreach item="appItems" collection="array" open="(" separator="," close=")">
-            #{appItems}
+    <delete id="deleteAppOpsByOpsIds" parameterType="String">
+        delete from app_ops where ops_id in 
+        <foreach item="opsId" collection="array" open="(" separator="," close=")">
+            #{opsId}
         </foreach>
     </delete>
 </mapper>
